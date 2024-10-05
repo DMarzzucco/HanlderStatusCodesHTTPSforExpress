@@ -16,17 +16,36 @@ The main goal of this module is to provide a standardized and consistent way to 
 
 ## Examples in Service 
 
-```TS
+### First Option
 
+```TS
+ 
  async getByid(id: number): Promise<ServiceResponse<users>> {
         try {
             const user = await prisma.users.findUnique({ where: { id: id } })
             if (!user) {
-                return ResponseStatudsHTTPS.notFound()
+                return ResponseStatudsHTTPS.notFound(`User not found`)
             }
             return ResponseStatudsHTTPS.succes(user)
         } catch (error: any) {
             return ResponseStatudsHTTPS.errorServer(error.message)
+        }
+    }
+
+ ```
+ ### Second Option
+
+ ```TS
+ 
+ async getByid(id: number): Promise<ServiceResponse<users>> {
+        try {
+            const user = await prisma.users.findUnique({ where: { id: id } })
+            if (!user) {
+                return ResponseStatudsHTTPS.createResponse({status:Code.NOT_FOUND, message:"User not found"})
+            }
+            return ResponseStatudsHTTPS.createResponse({status:Code.OK, data:user})
+        } catch (error: any) {
+            return ResponseStatudsHTTPS.createResponse({status:Code.INTERNAL_SERVER_ERROR, message: error.message})
         }
     }
 
@@ -49,9 +68,8 @@ The main goal of this module is to provide a standardized and consistent way to 
 interface ServiceResponse<T> {
     statusCode: httpsStatusCode; //Export Enums
     body: {
-        message: string;
+        message?: string;
         data?: T;
-        details?: string;
     }
 }
 

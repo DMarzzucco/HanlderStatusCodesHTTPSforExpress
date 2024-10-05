@@ -1,4 +1,4 @@
-export enum httpsStatusCode {
+export enum Code {
     // https code response 200
     OK = 200,
     CREATED = 201,
