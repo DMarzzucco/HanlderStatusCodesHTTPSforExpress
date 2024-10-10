@@ -35,7 +35,7 @@ The main goal of this module is to provide a standardized and consistent way to 
  ```
  ### Second Option
 
- ```TS
+  ```TS
  
  async getByid(id: number): Promise<ServiceResponse<users>> {
         try {
@@ -58,6 +58,22 @@ The main goal of this module is to provide a standardized and consistent way to 
         const { id } = req.params
         const result = await this.service.getByid(Number(id))
         return res.status(result.statusCode).json(result.body)
+    }
+ ```
+
+## Handler Error for NestJs
+
+ ```TS
+ public async getByid(id: number): Promise<User> {
+        try {
+            const user = await prisma.users.findUnique({ where: { id: id } })
+            if (!user) {
+                throw new ErrorManager({ type: "NOT_FOUND", message: "User not found" })
+            }
+            return user
+        } catch (error: any) {
+            throw new ErrorManager.createSignatureError(error.message)
+        }
     }
  ```
 
