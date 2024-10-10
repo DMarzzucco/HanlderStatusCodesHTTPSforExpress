@@ -61,6 +61,20 @@ The main goal of this module is to provide a standardized and consistent way to 
     }
  ```
 
+ ## Interface 
+
+```TS
+
+interface ServiceResponse<T> {
+    statusCode: httpsStatusCode; //Export Enums
+    body: {
+        message?: string;
+        data?: T;
+    }
+}
+
+```
+
 ## Handler Error for NestJs
 
  ```TS
@@ -76,20 +90,6 @@ The main goal of this module is to provide a standardized and consistent way to 
         }
     }
  ```
-
- ## Interface 
-
-```TS
-
-interface ServiceResponse<T> {
-    statusCode: httpsStatusCode; //Export Enums
-    body: {
-        message?: string;
-        data?: T;
-    }
-}
-
-```
 
 ## Author
 
